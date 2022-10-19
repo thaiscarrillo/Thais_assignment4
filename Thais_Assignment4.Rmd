@@ -1,0 +1,96 @@
+---
+title: "Thais Carrillo: Assignment 4"
+output: html_notebook
+---
+
+#Step 2: load packages
+```{r}
+library(tidyverse)
+library(ggthemes)
+```
+
+# Step 3: import data
+```{r}
+assignment4 = read_csv("a4_data.csv")
+```
+
+# Step 4: Rows and Columns
+```{r}
+nrow(assignment4)
+ncol(assignment4)
+```
+In "assignment4," there are 3700 rows and 12 columns.
+
+# Step 5: Unique participants and trials
+```{r}
+assignment4 %>% pull (subject) %>% unique()
+```
+
+# Step 6: Levels of Variables
+```{r}
+levels(assignment4 %>% pull(prime_condition))
+levels(assignment4 %>% pull(state))
+
+```
+
+# Step 7: Subsets of columns
+```{r}
+prime_information = assignment4 %>%
+  select(subject, prime_condition)
+```
+
+# Step 8: Subsets of rows
+```{r}
+phonological = assignment4 %>%
+  filter(accuracy == 1 & prime_condition == "phonological")
+```
+
+# Step 9: Summarizing accuracy per subject
+```{r}
+subject_acc = assignment4 %>%
+  group_by(subject) %>%
+  summarize(mean = mean(accuracy))
+```
+
+# Step 10: Summarizing accuracy per prime condition
+```{r}
+prime_acc = assignment4 %>%
+  group_by(prime_condition) %>%
+  summarize(mean = mean(accuracy), sd_prime = sd(accuracy))
+```
+
+# Step 11: Histogram of subject accuracy
+```{r}
+subject_acc %>%
+  ggplot(aes(x = mean))+
+  geom_histogram(binwidth = 0.2, fill = "deeppink3", color = "black", position = "identity")+
+  theme_few()+
+  labs(x = "mean accuracy", y = "count", title = "Histogram of mean accuracy")
+
+```
+# Step 12: Bar plot of prime condition
+```{r}
+prime_acc %>%
+  ggplot(aes(x = prime_condition, y = mean))+
+  geom_col(position = "identity", fill = "darkcyan", color = "black")+
+  theme_few()+
+  labs(x = "prime condition", y = "mean accuracy", title = "Mean accuracy across prime condition")
+```
+# Step 13: Data interpretation
+The phonological prime condition resulted in higher mean accuracy compared to the other conditions. The semantic prime condition had the lowest mean accuracy while unrelated and both prime conditions are similar.
+
+# Step 14: Summarizing accuracy per prime condition and state
+```{r}
+state_prime_acc = assignment4 %>%
+  group_by(state, prime_condition) %>%
+  summarize(mean = mean(accuracy))
+```
+
+# Step 15: Bar plot of prime condition and state
+```{r}
+state_prime_acc %>%
+  ggplot(aes(x = prime_condition, y = mean, fill = state))+
+  geom_col(position = "dodge")+
+  theme_few()+
+  labs(x = "prime condition", y = "mean accuracy", title = "Mean accuracy across prime condition")
+```
