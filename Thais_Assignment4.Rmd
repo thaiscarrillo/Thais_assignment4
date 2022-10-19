@@ -3,13 +3,13 @@ title: "Thais Carrillo: Assignment 4"
 output: html_notebook
 ---
 
-#Step 2: load packages
+# Step 2: Load packages
 ```{r}
 library(tidyverse)
 library(ggthemes)
 ```
 
-# Step 3: import data
+# Step 3: Import data
 ```{r}
 assignment4 = read_csv("a4_data.csv")
 ```
