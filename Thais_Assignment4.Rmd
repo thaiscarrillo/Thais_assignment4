@@ -24,14 +24,21 @@ In "assignment4," there are 3700 rows and 12 columns.
 # Step 5: Unique participants and trials
 ```{r}
 assignment4 %>% pull (subject) %>% unique()
+assignment4 %>% group_by(subject) %>% count()
 ```
+There are 2 unique subjects and each subject did 100 trials.
 
 # Step 6: Levels of Variables
 ```{r}
+assignment4 = assignment4 %>% 
+  mutate(prime_condition = as.factor(prime_condition), 
+         state = as.factor(state))
+
 levels(assignment4 %>% pull(prime_condition))
 levels(assignment4 %>% pull(state))
 
 ```
+The variable "prime_condition" has 4 levels: both, phonological, semantic, and unrelated. The variable "state" also has 4 levels: dontknow, know, other, and tipoftongue.
 
 # Step 7: Subsets of columns
 ```{r}
